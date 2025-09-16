@@ -1,0 +1,23 @@
+##################################
+# Production only
+# Generiraj SECRET_KEY sa:
+#   python -c "from django.core.management import utils; print(utils.get_random_secret_key())"
+##################################
+SECRET_KEY = 'django-insecure-g#vfzs92tn$qif=1zi@gv74=4&ztgdd2zo8jcn8e%1krh(fyzx'
+
+# Development only, DATABASES postavke idu u production.py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'home_budget',
+    },
+}
+
+PREDEFINED_CATEGORIES = [
+    'Groceries',
+    'Entertainment',
+    'Bills',
+    'Savings',
+    'Health',
+    'Travel',
+]
