@@ -33,6 +33,7 @@ from ..services import aggregate_user_transactions
     ),
     update=extend_schema(
         tags=["Transactions"],
+        description="Updates a transaction owned by the authenticated user.",
         request=TransactionSerializer,
         responses={200: TransactionSerializer},
     ),
@@ -131,6 +132,10 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
     @extend_schema(
         tags=["Transactions"],
+        parameters=[
+            OpenApiParameter("start", OpenApiTypes.DATE, description="Start date in YYYY-MM-DD format", required=True),
+            OpenApiParameter("end", OpenApiTypes.DATE, description="End date in YYYY-MM-DD format", required=True),
+        ],
         description="Returns a summary of transactions for a custom date range specified by 'start' and 'end' query parameters.",
         request=CustomSummarySerializer,
         responses={200: OpenApiTypes.OBJECT},

@@ -25,6 +25,7 @@ from ..serializers import CategorySerializer
     ),
     update=extend_schema(
         tags=["Categories"],
+        description="Updates a category owned by the authenticated user.",
         request=CategorySerializer,
         responses={200: CategorySerializer},
     ),
