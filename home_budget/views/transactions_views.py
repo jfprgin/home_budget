@@ -22,6 +22,14 @@ from ..services import aggregate_user_transactions
     ),
     create=extend_schema(
         tags=["Transactions"],
+        parameters=[
+            OpenApiParameter("category_id", OpenApiTypes.INT, description="ID of the category", required=True),
+            OpenApiParameter("description", OpenApiTypes.STR, description="Description of the transaction",
+                             required=False),
+            OpenApiParameter("amount", OpenApiTypes.FLOAT, description="Amount of the transaction", required=True),
+            OpenApiParameter("type", OpenApiTypes.STR, description="Type of the transaction (income or expense)",
+                             required=True),
+        ],
         description="Creates a new transaction associated with the authenticated user's profile.",
         request=TransactionSerializer,
         responses={201: TransactionSerializer},

@@ -1,4 +1,4 @@
-from drf_spectacular.utils import extend_schema, OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiTypes, OpenApiParameter
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -16,6 +16,12 @@ class RegisterView(APIView):
     @extend_schema(
         request=RegisterSerializer,
         responses={201: RegisterSerializer},
+        parameters=[
+            OpenApiParameter("username", OpenApiTypes.STR, description="Desired username", required=True),
+            OpenApiParameter("email", OpenApiTypes.STR, description="User email", required=True),
+            OpenApiParameter("password", OpenApiTypes.STR, description="Password", required=True),
+            OpenApiParameter("password2", OpenApiTypes.STR, description="Confirm password", required=True),
+        ],
         tags=["Auth"],
         operation_id="register",
         description="Register a new user. Returns access and refresh tokens."
@@ -34,6 +40,11 @@ class ChangePasswordView(APIView):
     @extend_schema(  # <-- already added
         request=ChangePasswordSerializer,
         responses={200: OpenApiTypes.OBJECT},
+        parameters=[
+            OpenApiParameter("current_password", OpenApiTypes.STR, description="Current password", required=True),
+            OpenApiParameter("new_password", OpenApiTypes.STR, description="New password", required=True),
+            OpenApiParameter("new_password2", OpenApiTypes.STR, description="Confirm new password", required=True),
+        ],
         tags=["Auth"],
         operation_id="change_password",
         description="Change the authenticated user's password. Returns new access and refresh tokens."
@@ -64,6 +75,9 @@ class LogoutView(APIView):
     @extend_schema(
         request=LogoutRequestSerializer,
         responses={205: OpenApiTypes.OBJECT},
+        parameters=[
+            OpenApiParameter("refresh", OpenApiTypes.STR, description="Refresh token to be blacklisted", required=True)
+        ],
         tags=["Auth"],
         operation_id="logout",
         description="Logout the user by blacklisting the provided refresh token."

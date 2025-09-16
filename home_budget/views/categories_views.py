@@ -1,5 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.utils import extend_schema, extend_schema_view
+from drf_spectacular.utils import extend_schema, extend_schema_view, OpenApiParameter
 from rest_framework import viewsets, permissions, filters
 
 from ..models import Category
@@ -14,6 +14,9 @@ from ..serializers import CategorySerializer
     ),
     create=extend_schema(
         tags=["Categories"],
+        parameters=[
+            OpenApiParameter("name", str, description="Name of the category", required=True)
+        ],
         description="Creates a new category associated with the authenticated user's profile.",
         request=CategorySerializer,
         responses={201: CategorySerializer},

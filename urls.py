@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -12,6 +12,10 @@ from home_budget.views.transactions_views import TransactionViewSet
 
 @extend_schema(
     tags=["Auth"],
+    parameters=[
+        OpenApiParameter("username", str, description="User's username", required=True),
+        OpenApiParameter("password", str, description="User's password", required=True),
+    ],
     description="Obtain JWT access and refresh tokens by providing valid user credentials.",
     responses={200: {"access": "string", "refresh": "string"}},
 )
@@ -21,6 +25,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 @extend_schema(
     tags=["Auth"],
+    parameters=[
+        OpenApiParameter("refresh", str, description="Valid refresh token", required=True),
+    ],
     description="Refresh JWT access token using a valid refresh token.",
     responses={200: {"access": "string"}},
 )
