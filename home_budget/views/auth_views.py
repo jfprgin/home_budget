@@ -50,7 +50,7 @@ class ChangePasswordView(APIView):
         description="Change the authenticated user's password. Returns new access and refresh tokens."
     )
     def post(self, request):
-        serializer = ChangePasswordSerializer(data=request.data, context={"request": request})  # ✅ fix here
+        serializer = ChangePasswordSerializer(data=request.data, context={"request": request})
 
         if serializer.is_valid():
             if not request.user.check_password(serializer.validated_data['current_password']):
